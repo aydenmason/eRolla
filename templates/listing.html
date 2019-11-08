@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang = "en" dir = "ltr">
+  <head>
+    <title>Create Listing</title>
+    <meta charset = "utf-8">
+  </head>
+
+  <body>
+    <center>
+      <div class = "container">
+        <h1> Create a New Listing</h1>
+        <br>
+        <form action="" method="">
+          <input type="text" placeholder = "Item Name" name ="itemName" value = "{{request.form.itemName}}">
+          <br><br>
+          <input type="price" placeholder = "Item Price" name = "itemPrice" value = "{{request.form.itemPrice}}">
+          <br><br>
+          <input class="btn btn-default" type = "submit" value ="create">
+        </form>
+        {% if error %}
+        <p class="error"><strong>Error</strong> {{ error }}
+        {% endif %}
+      </div>
+    </center>
+  </body>
+</html>
