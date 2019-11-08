@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Shipping Information</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <center>
+      <div class="containter">
+        <h1>Enter Your Shipping Information</h1>
+        <br>
+        <form action="" method = "post">
+          <input type="text" placeholder="Address line" name="address" value="{{request.form.address}}"><br>
+          <br>
+          <input type="city" placeholder="City/Town" name="city" value="{{request.form.city}}"><br>
+          <br>
+          <input type="state" placeholder="State" name="state" value="{{request.form.state}}"><br>
+          <br>
+          <input type="zip" placeholder="Zip Code" name="zip" value="{{request.form.zip}}"><br><br>
+          <input class="btn btn-default" type="submit" value ="Next">
+        </form>
+      </div>
+    </center>
+  </body>
+</html>
