@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Estimated Arrival Date</title>
+    <meta charset ="utf-8">
+  </head>
+  <body>
+    <center>
+      <div class="container">
+        <h1>Please Estimate the Arrival Date of the package</h1><br><br>
+        <form action="" method="post">
+          <input type="text" placeholder = "Month" name = "month" value="{{request.form.month}}">
+          <input type="text" placeholder = "Day" name = "day" value="{{request.form.day}}">
+          <input type="text" placeholder = "Year" name = "year" value="{{request.form.year}}">
+          <input class="btn btn-defualt" type="submit" value = "Confirm">
+        </form>
+      </div>
+    </center>
+  </body>
+</html>
