@@ -20,6 +20,15 @@ def home():
 @app.route("/search")
 def about():
     return render_template("search.html")
+
+@app.route("/listing")
+def listing():
+  return render_template("listing.html")
+
+@app.route("/shipping")
+def shipping():
+  return render_template("shipping.html")
+
     
 if __name__ == "__main__":
     app.run(debug=True)
