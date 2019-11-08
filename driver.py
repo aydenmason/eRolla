@@ -3,6 +3,9 @@ from flask import Flask, render_template, redirect, url_for, request
 app = Flask(__name__)
 
 
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -18,7 +21,7 @@ def home():
     return render_template("home.html")
     
 @app.route("/search")
-def about():
+def search():
     return render_template("search.html")
 
 @app.route("/listing")
@@ -29,6 +32,10 @@ def listing():
 def shipping():
   return render_template("shipping.html")
 
+@app.route("/DOA")
+def DOA():
+  return render_template("DOA.html")
+  
     
 if __name__ == "__main__":
     app.run(debug=True)
