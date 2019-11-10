@@ -1,21 +1,16 @@
-<!doctype html>
-<html lang = "en" dir="ltr">
+{% extends 'layout.html' %}
+{% block body %}
   <head>
     <meta charset ="utf-8">
     <title> Home </title>
   </head>
   
   <body>
-    <center>
       <img src="/static/pics/garfield.png" alt="Garfield" width="200"
       height="200">
-    {% extends "template.html" %}
-    {% block content %}
+   
 
     <h1>Our app rocks!</h1>
     <p>E-Rolla was created by 3 god like programmers</p>
     {% endblock %}
-  </center>
   </body>
-
-</html>
