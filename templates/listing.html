@@ -1,12 +1,10 @@
-<!doctype html>
-<html lang = "en" dir = "ltr">
-  <head>
+{% extends 'layout.html' %}
+{% block body %}
+
+  <head></head>
     <title>Create Listing</title>
     <meta charset = "utf-8">
   </head>
-
-  <body>
-    <center>
       <div class = "container">
         <h1> Create a New Listing</h1>
         <br>
@@ -21,6 +19,4 @@
         <p class="error"><strong>Error</strong> {{ error }}
         {% endif %}
       </div>
-    </center>
-  </body>
-</html>
+{% endblock %}
