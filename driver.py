@@ -1,8 +1,9 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
+
 app = Flask(__name__)
 
 app.config['MYSQL_USER'] = 'root'
@@ -28,7 +29,7 @@ def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
         username = form.username.data        
-        password = sha256_crypt.encrypt(str(form.password.data))
+        password = form.password.data
         name = form.name.data
         email = form.email.data
 
@@ -36,7 +37,7 @@ def register():
         cur = mysql.connection.cursor()
 
         # Execute query
-        cur.execute("INSERT INTO user(username, password, name, email) VALUES(%s, %s, %s, %s)", (username, password, name, email))
+        cur.execute("INSERT INTO users(username, password, name, email) VALUES(%s, %s, %s, %s)", (username, password, name, email))
 
         # Commit to DB
         mysql.connection.commit()
