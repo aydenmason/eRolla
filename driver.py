@@ -78,7 +78,11 @@ def shipping():
 @app.route("/DOA")
 def DOA():
   return render_template("DOA.html")
-  
-    
+
+@app.route("/about")
+def about():
+  return render_template("about.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
