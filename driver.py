@@ -5,7 +5,7 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 
 app = Flask(__name__)
-
+app.secret_key = "super secret key"
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] ='project123!'
 app.config['MYSQL_HOST'] ='localhost'
@@ -54,11 +54,27 @@ def register():
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != 'god' or request.form['password'] != 'god':
-            error = 'Username or password not recognized. Try Again'
-        else:
-            return redirect(url_for('home'))
-    return render_template('login.html', error=error)
+      username = request.form['username']
+      password_to_test = request.form['password']
+      
+      current = mysql.connection.cursor()
+
+      res = current.execute("SELECT * FROM users WHERE username = %s", [username])
+      data = current.fetchone()
+      pw = data['password']
+
+      if password_to_test == pw:
+        flash('You are now logged in', 'success')
+        return redirect(url_for('home'))
+      else:
+        error = 'This Login is not valid'
+        return render_template('login.html', error = error)
+      current.close()
+    else:
+      error = 'Username is not detected'
+      return render_template('login.html', error=error)
+
+    return render_template('login.html')
 
 @app.route("/home")
 def home():
