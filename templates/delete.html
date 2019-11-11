@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block body %}
+  <head>
+    <title>Delee Item</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Delete Item</h1>
+      <br>
+      <form action="" method="post">
+        <input type="text" placeholder="Item ID" name="itemid" value="{{
+          request.form.itemid }}">
+         
+        <input class="btn btn-default" type="submit" value="Login">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error</strong> {{ error }}
+      {% endif %}
+    </div>
+  </body>
+{% endblock %}
