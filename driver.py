@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_mysqldb import MySQL
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, FloatField, BooleanField, IntegerField
 from passlib.hash import sha256_crypt
 from functools import wraps
 
@@ -71,7 +71,6 @@ def login():
         return render_template('login.html', error = error)
       current.close()
     else:
-      error = 'Username is not detected'
       return render_template('login.html', error=error)
 
     return render_template('login.html')
@@ -84,9 +83,47 @@ def home():
 def search():
     return render_template("search.html")
 
-@app.route("/listing")
+class ListingForm(Form):
+    itemID = StringField('Item ID', [validators.Length(min=1, max=50)])
+    itemPrice = IntegerField('Price',[validators.NumberRange(min=0, max=20000)])
+    itemColor = StringField('Color',[validators.Length(min=3,max=20)])
+    itemRating = IntegerField('Rating',[validators.NumberRange(min=0, max=5)])
+    seller = StringField('Seller',[validators.Length(min=4, max = 40)])
+    itemName = StringField('Item Name',[validators.Length(min=4,max=40)])
+    
+
+@app.route("/listing", methods=['GET', 'POST'])
 def listing():
-  return render_template("listing.html")
+  form = ListingForm(request.form)
+  if request.method == 'POST' and form.validate():
+    seller = form.seller.data
+    itemID = form.itemID.data
+    itemPrice = form.itemPrice.data
+    itemName = form.itemName.data
+    itemColor = form.itemColor.data
+    itemRating = form.itemRating.data
+    been_sold = 0
+    #create the cursor to guide the insertion
+    cur = mysql.connection.cursor()
+
+    #add to the table
+    cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
+    # Commit to DB
+    mysql.connection.commit()
+
+    # Close connection
+    cur.close()
+    flash('item has been added to eRolla', 'success')
+  return render_template("listing.html",form=form)
+
+@app.route("/items", methods=['GET', 'POST'])
+def items():
+  cur = mysql.connection.cursor()
+  cur.execute("SELECT * FROM item")
+  data = cur.fetchall()
+  return render_template("items.html", data=data)
+
+
 
 @app.route("/shipping")
 def shipping():
