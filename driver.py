@@ -131,8 +131,10 @@ def items():
   cur = mysql.connection.cursor()
   cur.execute("SELECT * FROM item")
   data = cur.fetchall()
+  cur.execute("SELECT AVG(price) FROM item")
+  avgPrice = cur.fetchall()
   cur.close()
-  return render_template("items.html", data=data)
+  return render_template("items.html", data=data, price=avgPrice)
 @app.route("/delete", methods=['GET','POST'])
 def delete():
   if request.method == 'POST':

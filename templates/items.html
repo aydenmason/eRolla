@@ -1,6 +1,5 @@
 {% extends 'layout.html' %}
 {% block body %}
-
 <p>
     <table class="table table-striped">
         <thead>
@@ -9,6 +8,7 @@
         <th>Seller</th>
         <th>Item name</th>
         <th>Price</th>
+        <th>Average Price</th>
         </tr>
         </thead>
         <tbody>
@@ -18,10 +18,13 @@
       <td>{{ u.seller_user }}</td>
       <td>{{ u.name}}</td>
       <td> {{ u.price }}</td>
+      {% endfor %}
+
+      <td>{{ price }} </td>
       </tr>
-    {% endfor %}
       </tbody>
-      </table>
+      </table><br><br>
+
     </p>
 {% endblock %}
 
