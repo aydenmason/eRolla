@@ -78,10 +78,20 @@ def login():
 @app.route("/home")
 def home():
     return render_template("home.html")
-    
-@app.route("/search")
+
+@app.route('/search', methods = ['GET', 'POST'])
 def search():
-    return render_template("search.html")
+    if request.method == 'POST':
+      itemName = request.form['name']
+      
+      current = mysql.connection.cursor()
+
+      res = current.execute("SELECT * FROM item WHERE name = %s", [itemName])
+      data = current.fetchall()
+      current.close()
+      return render_template("items.html", data=data)
+
+    return render_template('search.html')
 
 class ListingForm(Form):
     itemID = StringField('Item ID', [validators.Length(min=1, max=50)])
@@ -121,7 +131,23 @@ def items():
   cur = mysql.connection.cursor()
   cur.execute("SELECT * FROM item")
   data = cur.fetchall()
+  cur.close()
   return render_template("items.html", data=data)
+@app.route("/delete", methods=['GET','POST'])
+def delete():
+  if request.method == 'POST':
+      itemID = request.form['itemid']
+      
+      current = mysql.connection.cursor()
+
+      res = current.execute("DELETE FROM item WHERE itemid = %s", [itemID])
+      data = current.fetchone()
+      mysql.connection.commit()
+      current.close()
+      items()
+      flash("Item Deleted!", 'success')
+     
+  return render_template("delete.html")
 
 
 
