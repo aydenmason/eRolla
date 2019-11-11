@@ -1,9 +1,60 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>eRolla</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <style>
+        body {
+            background-color: mediumseagreen;
+            padding-top: 20px;
+            padding-left: 40px;
+            padding-right: 40px;
+            font-family: Arial;
+        }
+        .container {
+            background-color: white;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .tabs {
+            margin: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: rgb(68,0,0);
+            font-size: 1.5em;
+            width: 100%;
+            font-family: Arial;
+        }
+        .item1, .item2, .item3, .item4, .item5, .item6 {
+            background: white;
+            border-color: mediumseagreen;
+        }
+
+        .item1:hover, .item2:hover, .item3:hover, .item4:hover, .item5:hover, .item6:hover {
+            background-color: rgba(60, 179, 113, 0.20);
+            -webkit-transition: all 1s ease;
+        }
+        .item {
+            border: 1px solid;
+            border-color: rgb(30, 90, 56);
+            padding: 6px;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+        }
+        .mainh {
+            text-align: center;
+            font-family: Arial;
+            font-size: 3.5em;
+            text-shadow: 0px 0px 20px rgba(60,179,113,0.4);
+            -webkit-text-stroke: 1px mediumseagreen;
+        }
+
+    </style>
   </head>
   <body>
     {% include 'nav.html' %}
