@@ -1,22 +1,28 @@
 {% extends 'layout.html' %}
 {% block body %}
-
-  <head></head>
-    <title>Create Listing</title>
-    <meta charset = "utf-8">
-  </head>
-      <div class = "container">
-        <h1> Create a New Listing</h1>
-        <br>
-        <form action="" method="">
-          <input type="text" placeholder = "Item Name" name ="itemName" value = "{{request.form.itemName}}">
-          <br><br>
-          <input type="price" placeholder = "Item Price" name = "itemPrice" value = "{{request.form.itemPrice}}">
-          <br><br>
-          <input class="btn btn-default" type = "submit" value ="create">
-        </form>
-        {% if error %}
-        <p class="error"><strong>Error</strong> {{ error }}
-        {% endif %}
+  <h1>Create Listing</h1>
+  {% from "helpers.html" import render_field %}
+  <form method="POST" action="">
+    <div class = "form-group">
+      {{render_field(form.seller, class_="form-control")}}
+    </div>
+    <div class = "form-group">
+        {{render_field(form.itemName, class_="form-control")}}
       </div>
+      <div class="form-group">
+          {{render_field(form.itemID, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.itemPrice, class_="form-control")}}
+        </div>
+        <div class="form-group">
+          {{render_field(form.itemColor, class_="form-control")}}
+        </div>
+        <div class = "form-group">
+          {{render_field(form.itemRating, class_="form-control")}}
+      </div>
+      
+        
+    <p><input type="submit" class="btn btn-primary" value="Submit"></p>
+    </form>
 {% endblock %}

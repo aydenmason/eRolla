@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+        <th>UserName</th>
+        <th>Item name</th>
+        <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for u in data %}
+      <tr>
+      <td>{{ u.seller_user }}</td>
+      <td>{{ u.name}}</td>
+      <td> {{ u.price }}</td>
+      </tr>
+    {% endfor %}
+      </tbody>
+      </table>
+    </p>
+{% endblock %}
+
