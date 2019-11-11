@@ -1,11 +1,22 @@
 {% extends 'layout.html' %}
 {% block body %}
   <head>
-    <meta charset="utf-8">
-    <title>Search For Items</title>
+    <title>Search Items</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <h1> Search </h1>
-    <P>type to search, TODO add search bar</P>
+    <div class="container">
+      <h1>Search Items</h1>
+      <br>
+      <form action="" method="post">
+        <input type="text" placeholder="Item Name" name="name" value="{{
+          request.form.name }}">
+         
+        <input class="btn btn-default" type="submit" value="Login">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error</strong> {{ error }}
+      {% endif %}
+    </div>
   </body>
 {% endblock %}
