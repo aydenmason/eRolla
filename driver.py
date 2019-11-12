@@ -22,7 +22,7 @@ class RegisterForm(Form):
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords dont match')
     ])
-    confirm = PasswordField('Confirm Your Password')
+    confirm = PasswordField('Confirm Password')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
