@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <div class="container">
-      <h1>Search Items</h1>
+    <div class="container sub-con">
+      <h1 class="form-heading">Search Items</h1>
       <br>
       <form action="" method="post">
         <input type="text" placeholder="Item Name" name="name" value="{{
-          request.form.name }}">
+          request.form.name }}" class="input-box">
          
-        <input class="btn btn-default" type="submit" value="Login">
+        <input class="btn btn-default" type="submit" value="Search">
       </form>
       {% if error %}
         <p class="error"><strong>Error</strong> {{ error }}
