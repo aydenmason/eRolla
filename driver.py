@@ -133,8 +133,10 @@ def items():
   data = cur.fetchall()
   cur.execute("SELECT AVG(price) FROM item")
   avgPrice = cur.fetchall()
+  cur.execute("SELECT SUM(price) FROM item")
+  sumPrice = cur.fetchall()
   cur.close()
-  return render_template("items.html", data=data, price=avgPrice)
+  return render_template("items.html", data=data, price=avgPrice, sum=sumPrice)
 @app.route("/delete", methods=['GET','POST'])
 def delete():
   if request.method == 'POST':
