@@ -1,3 +1,2 @@
 # Database-Project
-Guides and code for CS2300 Project.
-Inside are guides that I have used to install react, node, SQL server.
+eRolla is a platform for users to buy and sell items in the town of Rolla, Missouri
