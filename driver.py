@@ -1,10 +1,15 @@
+#imports
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, FloatField, BooleanField, IntegerField
 from passlib.hash import sha256_crypt
 from functools import wraps
 
+
+#creating the application
 app = Flask(__name__)
+
+#configure the app to be able to interact with mySQL server
 app.secret_key = "super secret key"
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] ='project123!'
@@ -13,6 +18,8 @@ app.config['MYSQL_DB'] ='project'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
+
+
 
 class RegisterForm(Form):
     name = StringField('Name', [validators.Length(min=1, max=50)])
@@ -154,11 +161,11 @@ def delete():
   return render_template("delete.html")
 
 
-
+#not used yet
 @app.route("/shipping")
 def shipping():
   return render_template("shipping.html")
-
+#not used yet
 @app.route("/DOA")
 def DOA():
   return render_template("DOA.html")
@@ -167,6 +174,6 @@ def DOA():
 def about():
   return render_template("about.html")
 
-
+#main functions
 if __name__ == "__main__":
     app.run(debug=True)
