@@ -22,13 +22,15 @@ mysql = MySQL(app)
 
 
 class RegisterForm(Form):
-    name = StringField('Name', [validators.Length(min=1, max=50)])
+    fname = StringField('Name', [validators.Length(min=1, max=50)])
+    lname = StringField('Name', [validators.Length(min=1, max=50)])
     username = StringField('Username', [validators.Length(min=4, max=25)])
     email = StringField('Email', [validators.Length(min=6, max=50)])
     password = PasswordField('Password', [
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords dont match')
     ])
+
     confirm = PasswordField('Confirm Password')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -37,14 +39,16 @@ def register():
     if request.method == 'POST' and form.validate():
         username = form.username.data        
         password = form.password.data
-        name = form.name.data
+        fname = form.fname.data
+        lname = form.lname.data
         email = form.email.data
+        dob = form.dob.data
 
         # Create cursor
         cur = mysql.connection.cursor()
 
         # Execute query
-        cur.execute("INSERT INTO users(username, password, name, email) VALUES(%s, %s, %s, %s)", (username, password, name, email))
+        cur.execute("INSERT INTO user(username, password, fname, lname, email, dob) VALUES(%s, %s, %s, %s, %s, %s)", (username, password, fname, lname, email, dob))
 
         # Commit to DB
         mysql.connection.commit()
@@ -127,7 +131,6 @@ def listing():
     cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
     # Commit to DB
     mysql.connection.commit()
-
     # Close connection
     cur.close()
     flash('item has been added to eRolla', 'success')
