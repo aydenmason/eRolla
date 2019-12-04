@@ -200,7 +200,10 @@ def DOA():
 @app.route("/about")
 def about():
   return render_template("about.html")
-
+  
+@app.route("/purchase")
+def purchase():
+  return render_template("purchase.html")
 #main functions
 if __name__ == "__main__":
     app.run(debug=True)
