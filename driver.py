@@ -111,6 +111,8 @@ class ListingForm(Form):
     itemRating = IntegerField('Rating',[validators.NumberRange(min=0, max=5)])
     seller = StringField('Seller',[validators.Length(min=4, max = 40)])
     itemName = StringField('Item Name',[validators.Length(min=4,max=40)])
+    shippingAddress = StringField('Shipping Address', [validators.Length(min=5, max=100)])
+
     
 
 @app.route("/listing", methods=['GET', 'POST'])
@@ -123,12 +125,13 @@ def listing():
     itemName = form.itemName.data
     itemColor = form.itemColor.data
     itemRating = form.itemRating.data
+    shippingAddress = form.shippingAddress.data
     been_sold = 0
     #create the cursor to guide the insertion
     cur = mysql.connection.cursor()
 
     #add to the table
-    cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
+    cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased, ) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
     # Commit to DB
     mysql.connection.commit()
     # Close connection
