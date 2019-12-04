@@ -145,8 +145,13 @@ def items():
   avgPrice = cur.fetchall()
   cur.execute("SELECT SUM(price) FROM item")
   sumPrice = cur.fetchall()
+#cur.execute("SELECT MIN(price) FROM item")
+#minPrice = cur.fetchall()
+#cur.execute("SELECT MAX(price) FROM item")
+#maxPrice = cur.fetchall()
   cur.close()
   return render_template("items.html", data=data, price=avgPrice, sum=sumPrice)
+#also pass min=minPrice, max=maxPrice
 @app.route("/delete", methods=['GET','POST'])
 def delete():
   if request.method == 'POST':
