@@ -163,6 +163,22 @@ def delete():
      
   return render_template("delete.html")
 
+@app.route("/modify", methods=['GET', 'POST'])
+def modify():
+  if request.method == 'POST':
+      itemName = request.form['name']
+      
+      current = mysql.connection.cursor()
+
+      res = current.execute("SELECT* FROM item WHERE name = %s", [itemName])
+      data = current.fetchall()
+      current.close()
+      form = form.data
+      return render_template("modify.html", data=data)
+    
+
+
+  return render_template("modify.html")
 
 #not used yet
 @app.route("/shipping")
