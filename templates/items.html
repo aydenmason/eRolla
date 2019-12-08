@@ -10,6 +10,8 @@
         <th>Price</th>
         <th>Average Price</th>
         <th>Total Price</th>
+        <th>Cheapest Price</th>
+        <th>Highest Price</th>
         </tr>
         </thead>
         <tbody>
@@ -20,9 +22,11 @@
       <td>{{ u.name}}</td>
       <td> {{ u.price }}</td>
       {% endfor %}
-
+      
       <td>{{ price }} </td>
       <td>{{ sum }}</td>
+      <td>{{ min }}</td>
+      <td>{{ max }}</td>
       </tr>
       </tbody>
       </table><br><br>
