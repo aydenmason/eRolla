@@ -9,6 +9,9 @@ from functools import wraps
 #creating the application
 app = Flask(__name__)
 
+list_o_items = list()
+size = 0
+
 #configure the app to be able to interact with mySQL server
 app.secret_key = "super secret key"
 app.config['MYSQL_USER'] = 'root'
@@ -145,15 +148,19 @@ def items():
   cur.execute("SELECT * FROM item")
   data = cur.fetchall()
   cur.execute("SELECT AVG(price) FROM item")
-  avgPrice = cur.fetchall()
+  avgPrice = cur.fetchone()
   cur.execute("SELECT SUM(price) FROM item")
-  sumPrice = cur.fetchall()
+  sumPrice = cur.fetchone()
+  cur.execute("SELECT MIN(price) FROM item")
+  minPrice = cur.fetchone()
+  cur.execute("SELECT MAX(price) FROM item")
+  maxPrice = cur.fetchone()
 #cur.execute("SELECT MIN(price) FROM item")
 #minPrice = cur.fetchall()
 #cur.execute("SELECT MAX(price) FROM item")
 #maxPrice = cur.fetchall()
   cur.close()
-  return render_template("items.html", data=data, price=avgPrice, sum=sumPrice)
+  return render_template("items.html", data=data, price=round(avgPrice['AVG(price)']), sum=round(sumPrice['SUM(price)']), min=round(minPrice['MIN(price)']), max=round(maxPrice['MAX(price)']))
 #also pass min=minPrice, max=maxPrice
 @app.route("/delete", methods=['GET','POST'])
 def delete():
@@ -162,7 +169,7 @@ def delete():
       
       current = mysql.connection.cursor()
 
-      res = current.execute("DELETE FROM item WHERE itemid = %s", [itemID])
+      cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
       data = current.fetchone()
       mysql.connection.commit()
       current.close()
@@ -171,72 +178,33 @@ def delete():
      
   return render_template("delete.html")
 
-@app.route("/modify", methods=['GET', 'POST'])
-def modify():
-  
-   if request.method == 'POST':
-      itemID = request.form['itemid']
-      
-      current = mysql.connection.cursor()
-
-      res = current.execute("SELECT * FROM item WHERE itemid = %s", [itemID])
-      mysql.connection.commit()
-      data = current.fetchone()
-      current.close()
-
-      modify2(data)
-
-   return render_template("modify.html")
-
-
 class modifyForm(Form):
   itemPrice = FloatField('Price')
   itemColor = StringField('Color',[validators.Length(min=3,max=20)])
   itemRating = FloatField('Rating')
   itemName = StringField('Item Name',[validators.Length(min=4,max=40)])      
 
-@app.route("/modify", methods=['GET','POST'])
-def modify2(item):
-  form = modifyForm(request.form)
-  '''
-  #form.itemPrice.data = item['price']
-  #form.itemColor.data = item['color']
-  #form.itemRating.data = item['rating']
-  #form.itemName.data = item['name']
 
-  itemPrice = form.itemPrice.data
-  itemColor = form.itemColor.data
-  itemRating = form.itemRating.data
-  itemName = form.itemName.data
+@app.route("/modify", methods=['GET', 'POST'])
+def modify():
+   form = modifyForm(request.form)
+   if request.method == 'POST':
+      itemID = form.itemID.data
+      itemPrice = form.itemPrice.data
+      itemName = form.itemName.data
+      itemColor = form.itemColor.data
+      itemRating = form.itemRating.data
+      current = mysql.connection.cursor()
 
-  if itemPrice == '':
-    itemPrice = item['price']
-  if itemColor == '':
-    itemColor = item['color']
-  if itemRating == '':
-    itemRating - item['rating']
-  if  itemName == '':
-    itemName = item['name']
-  
-
-  
+      res = current.execute("SELECT * FROM item WHERE itemid = %s", [itemID])
+      mysql.connection.commit()
+      data = current.fetchall()
 
 
-  #cur = mysql.connection.cursor()
+      current.close()
+   
 
-  #add to the table
-  #cur.execute("MODIFY INTO item(price,color,rating,name) VALUES(%s,%s,%s,%s)", (itemPrice,itemColor,itemRating,itemName))
-  # Commit to DB
-  #mysql.connection.commit()
-  # Close connection
-  #cur.close()
-  flash('item has been modified', 'success')
-
-  '''
-
-return render_template("modify2.html", form=form)
-
-
+   return render_template("modify2.html", form=form)
 #not used yet
 @app.route("/shipping")
 def shipping():
@@ -252,7 +220,7 @@ def about():
 
 @app.route("/purchase")
 def purchase():
-  
+
   return render_template("purchase.html")
 #main functions
 if __name__ == "__main__":
