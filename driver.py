@@ -106,13 +106,13 @@ def search():
 
 class ListingForm(Form):
     itemID = StringField('Item ID', [validators.Length(min=1, max=50)])
-    itemPrice = IntegerField('Price',[validators.NumberRange(min=0, max=20000)])
+    itemPrice = FloatField('Price')
     itemColor = StringField('Color',[validators.Length(min=3,max=20)])
-    itemRating = IntegerField('Rating',[validators.NumberRange(min=0, max=5)])
+    itemRating = FloatField('Rating')
     seller = StringField('Seller',[validators.Length(min=4, max = 40)])
     itemName = StringField('Item Name',[validators.Length(min=4,max=40)])
     shippingAddress = StringField('Shipping Address', [validators.Length(min=5, max=100)])
-
+    
     
 
 @app.route("/listing", methods=['GET', 'POST'])
@@ -131,7 +131,7 @@ def listing():
     cur = mysql.connection.cursor()
 
     #add to the table
-    cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased, ) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
+    cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
     # Commit to DB
     mysql.connection.commit()
     # Close connection
@@ -174,8 +174,68 @@ def delete():
 @app.route("/modify", methods=['GET', 'POST'])
 def modify():
   
-  return render_template("modify.html", data=data)
+   if request.method == 'POST':
+      itemID = request.form['itemid']
+      
+      current = mysql.connection.cursor()
+
+      res = current.execute("SELECT * FROM item WHERE itemid = %s", [itemID])
+      mysql.connection.commit()
+      data = current.fetchone()
+      current.close()
+
+      modify2(data)
+
+   return render_template("modify.html")
+
+
+class modifyForm(Form):
+  itemPrice = FloatField('Price')
+  itemColor = StringField('Color',[validators.Length(min=3,max=20)])
+  itemRating = FloatField('Rating')
+  itemName = StringField('Item Name',[validators.Length(min=4,max=40)])      
+
+@app.route("/modify", methods=['GET','POST'])
+def modify2(item):
+  form = modifyForm(request.form)
+  '''
+  #form.itemPrice.data = item['price']
+  #form.itemColor.data = item['color']
+  #form.itemRating.data = item['rating']
+  #form.itemName.data = item['name']
+
+  itemPrice = form.itemPrice.data
+  itemColor = form.itemColor.data
+  itemRating = form.itemRating.data
+  itemName = form.itemName.data
+
+  if itemPrice == '':
+    itemPrice = item['price']
+  if itemColor == '':
+    itemColor = item['color']
+  if itemRating == '':
+    itemRating - item['rating']
+  if  itemName == '':
+    itemName = item['name']
   
+
+  
+
+
+  #cur = mysql.connection.cursor()
+
+  #add to the table
+  #cur.execute("MODIFY INTO item(price,color,rating,name) VALUES(%s,%s,%s,%s)", (itemPrice,itemColor,itemRating,itemName))
+  # Commit to DB
+  #mysql.connection.commit()
+  # Close connection
+  #cur.close()
+  flash('item has been modified', 'success')
+
+  '''
+
+return render_template("modify2.html", form=form)
+
 
 #not used yet
 @app.route("/shipping")
