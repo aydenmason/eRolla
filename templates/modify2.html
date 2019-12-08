@@ -5,6 +5,9 @@
     {% from "helpers.html" import render_field %}
     <form method="POST" action="">
         <div class="form-con">
+            <div class="form-group">
+              {{render_field(form.itemID, class_="form-control fc1")}}
+            </div>
             
             <div class="form-group">
                 {{render_field(form.itemName, class_="form-control fc2")}}
