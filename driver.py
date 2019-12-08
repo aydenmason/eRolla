@@ -173,20 +173,9 @@ def delete():
 
 @app.route("/modify", methods=['GET', 'POST'])
 def modify():
-  if request.method == 'POST':
-      itemName = request.form['name']
-      
-      current = mysql.connection.cursor()
-
-      res = current.execute("SELECT* FROM item WHERE name = %s", [itemName])
-      data = current.fetchall()
-      current.close()
-      form = form.data
-      return render_template("modify.html", data=data)
-    
-
-
-  return render_template("modify.html")
+  
+  return render_template("modify.html", data=data)
+  
 
 #not used yet
 @app.route("/shipping")
@@ -200,9 +189,10 @@ def DOA():
 @app.route("/about")
 def about():
   return render_template("about.html")
-  
+
 @app.route("/purchase")
 def purchase():
+  
   return render_template("purchase.html")
 #main functions
 if __name__ == "__main__":
