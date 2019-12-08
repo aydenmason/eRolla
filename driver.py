@@ -168,17 +168,17 @@ def delete():
       itemID = request.form['itemid']
       
       current = mysql.connection.cursor()
+      res = current.execute("DELETE FROM item WHERE itemid = %s", [itemID])
 
-      cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
       data = current.fetchone()
       mysql.connection.commit()
       current.close()
-      items()
       flash("Item Deleted!", 'success')
      
   return render_template("delete.html")
 
 class modifyForm(Form):
+  itemID = StringField('Item ID', [validators.Length(min=1, max=50)])
   itemPrice = FloatField('Price')
   itemColor = StringField('Color',[validators.Length(min=3,max=20)])
   itemRating = FloatField('Rating')
