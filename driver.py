@@ -229,7 +229,7 @@ class purchaseForm(Form):
     arrZip = StringField('Arrival Zip', [validators.Length(min=1,max=20)])
     arrStreet = StringField('Arrival Street', [validators.Length(min=1,max=20)])
   
-@app.route("/purchase")
+@app.route("/purchase", methods=['GET','POST'])
 def purchase():
   form = purchaseForm(request.form)
   if request.method == 'POST' and form.validate():
