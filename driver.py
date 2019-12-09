@@ -251,7 +251,7 @@ def purchase():
     cur = mysql.connection.cursor()
 
     #add to the table
-    cur.execute("INSERT INTO purchases(item_id,buyer,dep_st,dep_city,dep_state,dep_zip,arr_st,arr_city,arr_state,arr_zip,dep_date,arr_date,ship_cost) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(itemID,buyer,depStreet,depCity,depState,depZip,arrStreet,arrCity,arrState,arrZip,depDate,arrDate,shippingCost))
+    cur.execute("INSERT INTO purchases(item_id,buyer_user,dep_st,dep_city,dep_state,dep_zip,arr_st,arr_city,arr_state,arr_zip,dep_date,arr_date,ship_cost) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(itemID,buyer,depStreet,depCity,depState,depZip,arrStreet,arrCity,arrState,arrZip,depDate,arrDate,shippingCost))
     # Commit to DB
     mysql.connection.commit()
     # Close connection
