@@ -247,7 +247,7 @@ def purchase():
     arrDate = datetime.date.today() + timedelta(days=2)
     shippingCost = 0
     #create the cursor to guide the insertion
-     '''
+    '''
     cur = mysql.connection.cursor()
 
     #add to the table
