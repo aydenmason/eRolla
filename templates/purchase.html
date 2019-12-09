@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="list-page">
+    <h1 class="form-heading">Create Listing</h1>
+    {% from "helpers.html" import render_field %}
+    <form method="POST" action="">
+        <div class="form-con">
+            <div class="form-group">
+                {{render_field(form.seller, class_="form-control fc1")}}
+            </div>
+            <div class="form-group">
+                {{render_field(form.itemName, class_="form-control fc2")}}
+            </div>
+            <div class="form-group">
+                {{render_field(form.itemID, class_="form-control fc3")}}
+            </div>
+            <div class="form-group">
+                {{render_field(form.itemPrice, class_="form-control fc4")}}
+            </div>
+            <div class="form-group">
+                {{render_field(form.itemColor, class_="form-control fc5")}}
+            </div>
+            <div class="form-group">
+                {{render_field(form.itemRating, class_="form-control fc6")}}
+            </div>
+            <div class="form-group">
+                {{render_field(form.shippingAddress, class_="form-control fc7")}}
+            </div>
+        </div>
+        <p class="sub-button"><input type="submit" class="btn btn-primary" value="Create"></p>
+    </form>
+</div>
+{% endblock %}
