@@ -4,7 +4,7 @@ from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, FloatField, BooleanField, IntegerField
 from passlib.hash import sha256_crypt
 from functools import wraps
-
+from datetime import datetime, timedelta
 
 #creating the application
 app = Flask(__name__)
@@ -217,10 +217,47 @@ def DOA():
 @app.route("/about")
 def about():
   return render_template("about.html")
-
+class purchaseForm(Form):
+    itemID = StringField('Item ID', [validators.Length(min=1, max=50)])
+    buyer = StringField('Buyer',[validators.Length(min=1, max=20)])
+    depState = StringField('Departing State', [validators.Length(min=1,max=20)])
+    depCity = StringField('Departing City', [validators.Length(min=1,max=20)])
+    depZip = StringField('Departing Zip', [validators.Length(min=1,max=20)])       
+    depStreet = StringField('Departing Street', [validators.Length(min=1,max=20)])
+    arrCity = StringField('Arrival City', [validators.Length(min=1,max=20)])
+    arrState = StringField('Arrival State', [validators.Length(min=1,max=20)])
+    arrZip = StringField('Arrival Zip', [validators.Length(min=1,max=20)])
+    arrStreet = StringField('Arrival Street', [validators.Length(min=1,max=20)])
+  
 @app.route("/purchase")
 def purchase():
+  form = purchaseForm(request.form)
+  if request.method == 'POST' and form.validate():
+    itemID = form.itemID.data
+    buyer = form.buyer.data
+    depStreet = form.depStreet.data
+    depState = form.depState.data
+    depCity = form.depCity.data
+    depZip = form.depZip.data
+    arrStreet = form.arrStreet.data
+    arrState = form.arrState.data
+    arrCity = form.arrCity.data
+    arrZip = form.arrZip.data
+    depDate = datetime.date.today()
+    arrDate = datetime.date.today() + timedelta(days=2)
+    shippingCost = 0
+    #create the cursor to guide the insertion
+     '''
+    cur = mysql.connection.cursor()
 
+    #add to the table
+    cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
+    # Commit to DB
+    mysql.connection.commit()
+    # Close connection
+    cur.close()
+    flash('item has been added to eRolla', 'success')
+    '''
   return render_template("purchase.html")
 #main functions
 if __name__ == "__main__":
