@@ -258,7 +258,7 @@ def purchase():
     cur.close()
     flash('item has been added to eRolla', 'success')
     '''
-  return render_template("purchase.html")
+  return render_template("purchase.html", form=form)
 #main functions
 if __name__ == "__main__":
     app.run(debug=True)
