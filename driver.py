@@ -247,17 +247,17 @@ def purchase():
     arrDate = datetime.date.today() + timedelta(days=2)
     shippingCost = 0
     #create the cursor to guide the insertion
-    '''
+    
     cur = mysql.connection.cursor()
 
     #add to the table
-    cur.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,Been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (seller,itemID,itemPrice,itemColor,itemRating,itemName,been_sold))
+    cur.execute("INSERT INTO purchases(item_id,buyer,dep_st,dep_city,dep_state,dep_zip,arr_st,arr_city,arr_state,arr_zip,dep_date,arr_date,ship_cost) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(itemID,buyer,depStreet,depCity,depState,depZip,arrStreet,arrCity,arrState,arrZip,depDate,arrDate,shippingCost))
     # Commit to DB
     mysql.connection.commit()
     # Close connection
     cur.close()
     flash('item has been added to eRolla', 'success')
-    '''
+    
   return render_template("purchase.html", form=form)
 #main functions
 if __name__ == "__main__":
