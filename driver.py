@@ -9,8 +9,7 @@ from datetime import datetime, timedelta, date
 #creating the application
 app = Flask(__name__)
 
-list_o_items = list()
-size = 0
+
 
 #configure the app to be able to interact with mySQL server
 app.secret_key = "super secret key"
@@ -25,8 +24,8 @@ mysql = MySQL(app)
 
 
 class RegisterForm(Form):
-    fname = StringField('Name', [validators.Length(min=1, max=50)])
-    lname = StringField('Name', [validators.Length(min=1, max=50)])
+    fname = StringField('First Name', [validators.Length(min=1, max=50)])
+    lname = StringField('Last Name', [validators.Length(min=1, max=50)])
     username = StringField('Username', [validators.Length(min=4, max=25)])
     email = StringField('Email', [validators.Length(min=6, max=50)])
     password = PasswordField('Password', [
@@ -45,13 +44,14 @@ def register():
         fname = form.fname.data
         lname = form.lname.data
         email = form.email.data
-        dob = form.dob.data
+        dob = "2000-04-09"
+        age = 18
 
         # Create cursor
         cur = mysql.connection.cursor()
 
         # Execute query
-        cur.execute("INSERT INTO user(username, password, fname, lname, email, dob) VALUES(%s, %s, %s, %s, %s, %s)", (username, password, fname, lname, email, dob))
+        cur.execute("INSERT INTO user(username, password, fname, lname, email, dob,age) VALUES(%s, %s, %s, %s, %s,%s, %s)", (username, password, fname, lname, email, dob, age))
 
         # Commit to DB
         mysql.connection.commit()
@@ -73,21 +73,18 @@ def login():
       
       current = mysql.connection.cursor()
 
-      res = current.execute("SELECT * FROM users WHERE username = %s", [username])
+      res = current.execute("SELECT * FROM user WHERE username = %s", [username])
       data = current.fetchone()
       pw = data['password']
+      current.close()
 
-      if password_to_test == pw:
+      if password_to_test == pw and username == data['username'] and data['password'] != None and data['username']!=None:
         flash('You are now logged in', 'success')
         return redirect(url_for('home'))
       else:
         error = 'This Login is not valid'
         return render_template('login.html', error = error)
-      current.close()
-    else:
-      return render_template('login.html', error=error)
-
-    return render_template('login.html')
+    return render_template('login.html', error= error)
 
 @app.route("/home")
 def home():
@@ -187,7 +184,11 @@ class modifyForm(Form):
 
 @app.route("/modify", methods=['GET', 'POST'])
 def modify():
+
+
    form = modifyForm(request.form)
+
+
    if request.method == 'POST':
       itemID = form.itemID.data
       itemPrice = form.itemPrice.data
@@ -197,12 +198,19 @@ def modify():
       current = mysql.connection.cursor()
 
       res = current.execute("SELECT * FROM item WHERE itemid = %s", [itemID])
+      data = current.fetchone()
+
+      res = current.execute("DELETE FROM item WHERE itemid = %s", [itemID])
+
+
+      
+      res = current.execute("INSERT INTO item(seller_user,itemid,price,color,rating,name,been_purchased) VALUES(%s,%s,%s,%s,%s,%s,%s)", (data['seller_user'],itemID,itemPrice,itemColor,itemRating,itemName, 0))
       mysql.connection.commit()
       data = current.fetchall()
 
 
       current.close()
-   
+      flash("SUCCESSLY MODIFIED THE ITEM", "success")
 
    return render_template("modify2.html", form=form)
 #not used yet
@@ -251,8 +259,7 @@ def purchase():
     cur = mysql.connection.cursor()
 
     #add to the table
-    cur.execute("INSERT INTO purchases(item_id,buyer_user,dep_st,dep_city,dep_state,dep_zip,arr_st,arr_city,arr_state,arr_zip,dep_date,arr_date,ship_cost) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(itemID,buyer,depStreet,depCity,depState,depZip,arrStreet,arrCity,arrState,arrZip,depDate,arrDate,shippingCost))
-    # Commit to DB
+    res = cur.execute("DELETE FROM item WHERE itemid = %s", [itemID])
     mysql.connection.commit()
     # Close connection
     cur.close()
