@@ -4,7 +4,7 @@ from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, FloatField, BooleanField, IntegerField
 from passlib.hash import sha256_crypt
 from functools import wraps
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 #creating the application
 app = Flask(__name__)
@@ -243,8 +243,8 @@ def purchase():
     arrState = form.arrState.data
     arrCity = form.arrCity.data
     arrZip = form.arrZip.data
-    depDate = datetime.date.today()
-    arrDate = datetime.date.today() + timedelta(days=2)
+    depDate = date.today()
+    arrDate = date.today() + timedelta(days=2)
     shippingCost = 0
     #create the cursor to guide the insertion
     
