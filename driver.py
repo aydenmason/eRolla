@@ -256,7 +256,7 @@ def purchase():
     mysql.connection.commit()
     # Close connection
     cur.close()
-    flash('item has been added to eRolla', 'success')
+    flash('Item Has been ORDERED!', 'success')
     
   return render_template("purchase.html", form=form)
 #main functions
