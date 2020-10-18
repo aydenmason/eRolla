@@ -12,9 +12,9 @@ app = Flask(__name__)
 
 
 #configure the app to be able to interact with mySQL server
-app.secret_key = "super secret key"
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] ='project123!'
+app.secret_key = "X"
+app.config['MYSQL_USER'] = 'X'
+app.config['MYSQL_PASSWORD'] ='X'
 app.config['MYSQL_HOST'] ='localhost'
 app.config['MYSQL_DB'] ='project'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
